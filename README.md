@@ -1,6 +1,7 @@
 # Description
 
-This is a set of tools to make smooth videos with pytti without wasting your time to render frames that you don't really need
+This is a set of tools to make smooth videos with pytti without wasting your time to render frames that you don't really need.  
+Example can be found [here](https://sliterok.github.io/pytti-ebsynth/).
 
 # Requirements
 
