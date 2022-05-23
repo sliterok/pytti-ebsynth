@@ -1,0 +1,17 @@
+{
+	"name": "project",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"fluent-ffmpeg": "^2.1.2",
+		"sharp": "^0.30.4",
+		"yargs": "^17.5.1"
+	}
+}
