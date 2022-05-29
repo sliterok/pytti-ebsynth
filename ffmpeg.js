@@ -14,16 +14,17 @@ function split(project, fileName = 'input.mp4') {
 				console.log('Processing finished !')
 				resolve()
 			})
-			.save(`${project}/video/%05d.png`)
+			.save(`./projects/${project}/video/%06d.png`)
 	})
 }
 
 function join(project, framerate) {
 	return new Promise((resolve, reject) => {
 		ffmpeg()
-			.input(`./projects/${project}/out/%05d.png`)
+			.input(`./projects/${project}/out/%06d.png`)
 			.inputFPS(framerate)
 			.outputFPS(framerate)
+			.videoCodec('copy')
 			.on('start', function (commandLine) {
 				console.log('Spawned Ffmpeg with command: ' + commandLine)
 			})
@@ -35,7 +36,7 @@ function join(project, framerate) {
 				console.log('Processing finished !')
 				resolve()
 			})
-			.save(`./${project}/output.mp4`)
+			.save(`./projects/${project}/output.mp4`)
 	})
 }
 

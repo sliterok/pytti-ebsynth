@@ -1,3 +1,4 @@
 projects/*
 !projects/.gitkeep
 node_modules
+ebgen.config.json

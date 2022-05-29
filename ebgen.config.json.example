@@ -1,0 +1,12 @@
+{
+	"crossfade": 1,
+	"mask": false,
+	"keyframesWeight": 1,
+	"videoWeight": 4,
+	"maskWeight": 1,
+	"mapping": 10,
+	"deflicker": 1,
+	"diversity": 3500,
+	"detail": "medium",
+	"gpu": true
+}

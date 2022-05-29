@@ -5,10 +5,10 @@ async function interpolate(project, formula = '0.5 / distance') {
 	const distanceFn = eval(`distance => ${formula}`)
 	await fs.mkdir(`./projects/${project}/out`, { recursive: true })
 
-	const frameDirs = await fs.readdir(`./${project}/eb`)
+	const frameDirs = await fs.readdir(`./projects/${project}/eb`)
 	let lastFrame = 0
 	for (let frameDir of frameDirs) {
-		const frames = await fs.readdir(`./${project}/eb/${frameDir}`)
+		const frames = await fs.readdir(`./projects/${project}/eb/${frameDir}`)
 		for (const frame of frames) {
 			lastFrame = Math.max(lastFrame, parseInt(frame.split('.')[0]))
 		}
@@ -17,7 +17,7 @@ async function interpolate(project, formula = '0.5 / distance') {
 	console.log(frames, lastFrame)
 	const range = [1, lastFrame]
 	for (let i = range[0]; i < range[1]; i++) {
-		const index = i.toString().padStart(5, '0')
+		const index = i.toString().padStart(6, '0')
 		const out = `./projects/${project}/out/${index}.png`
 
 		const nearestFrames = [-1, +1]
@@ -42,7 +42,7 @@ async function interpolate(project, formula = '0.5 / distance') {
 			.map(({ nearest }) => nearest)
 
 		if (nearestFrames.some(el => !el) || nearestFrames[0] === nearestFrames[1]) {
-			await fs.copyFile(`./${project}/eb/frame_${nearestFrames.find(el => el)}/${index}.png`, out)
+			await fs.copyFile(`./projects/${project}/eb/frame_${nearestFrames.find(el => el)}/${index}.png`, out)
 			continue
 		}
 

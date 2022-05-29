@@ -1,4 +1,4 @@
-const fs = require('fs/promises')
+const { promises: fs, constants } = require('fs')
 
 const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
@@ -10,7 +10,7 @@ const { split, join } = require('./ffmpeg')
 
 yargs(hideBin(process.argv))
 	.command(
-		'init [project]',
+		'init <project>',
 		'Initialize a new project',
 		yargs =>
 			yargs.positional('project', {
@@ -21,15 +21,17 @@ yargs(hideBin(process.argv))
 		async args => {
 			const { project } = args
 			console.info({ project })
-			const folders = ['frames', 'out', 'video']
+
+			const folders = ['frames', 'out', 'video', 'generated']
 			for (const folder of folders) {
 				await fs.mkdir(`./projects/${project}/${folder}`, { recursive: true })
 			}
-			await fs.copyFile('./base.ebs', `./projects/${project}/base.ebs`)
+
+			await fs.access('./ebgen.config.json', constants.F_OK).catch(err => fs.copyFile('./ebgen.config.json.example', `./ebgen.config.json`))
 		}
 	)
 	.command(
-		'split [project] [filename]',
+		'split <project> [filename]',
 		'Split video into individual frames',
 		yargs =>
 			yargs
@@ -50,7 +52,7 @@ yargs(hideBin(process.argv))
 		}
 	)
 	.command(
-		'rename [project] [scale] options',
+		'rename <project> [scale]',
 		'renames generated frames to match source indexes',
 		yargs =>
 			yargs
@@ -67,11 +69,13 @@ yargs(hideBin(process.argv))
 				.option('move', {
 					describe: 'move frame by n (before scaling)\n' + 'if your frames start from 1 then [move] probably should be -1',
 					default: -1,
+					alias: 'm',
 					type: 'number',
 				})
 				.option('shift', {
 					describe: 'shift frame by n (after scaling)',
 					default: 0,
+					alias: 's',
 					type: 'number',
 				}),
 		args => {
@@ -81,26 +85,22 @@ yargs(hideBin(process.argv))
 		}
 	)
 	.command(
-		'ebgen [project] [crossfade]',
+		'ebgen <project>',
 		'generates ebsynth files',
 		yargs =>
-			yargs
-				.positional('project', {
-					describe: 'project folder name',
-					demandOption: 'project folder name is required',
-					type: 'string',
-				})
-				.positional('crossfade', {
-					describe: '0 = all frames between two keys, n = (count of frames between keys - n)',
-				}),
+			yargs.positional('project', {
+				describe: 'project folder name',
+				demandOption: 'project folder name is required',
+				type: 'string',
+			}),
 		args => {
-			const { project, crossfade } = args
-			console.info({ project, crossfade })
-			ebgen(project, crossfade)
+			const { project } = args
+			console.info({ project })
+			ebgen(project)
 		}
 	)
 	.command(
-		'interpolate [project] [formula]',
+		'interpolate <project> [formula]',
 		'interpolates between frames with opacity calculated by distance passed to formula',
 		yargs =>
 			yargs
@@ -120,7 +120,7 @@ yargs(hideBin(process.argv))
 		}
 	)
 	.command(
-		'join [project] [framerate]',
+		'join <project> [framerate]',
 		'joins frames into video',
 		yargs =>
 			yargs

@@ -12,10 +12,10 @@ Example can be found [here](https://sliterok.github.io/pytti-ebsynth/).
 # Flow
 
 -   init project (`init`)
--   generate frames with pytti and save to `projects/{project}/frames/*.png`
+-   generate frames with pytti and save to `projects/{project}/generated/*.png`
 -   split original video to frames (`split`)
 -   rename generated frames to match original sequence (`rename`)
--   open `base.ebs` file with ebsynth, edit settings to match your project (ignore keyframes), "save as" to `projects/{project}/base.ebs`
+-   (optional) copy `ebgen.config.json` to your project folder and update it with your settings (or edit global one)
 -   generate ebsynth project files (`ebgen`)
 -   run each ebsynth project file to generate interpolation frames (`eb.ahk`)
 -   make transitions between interpolated frames with sharp (`interpolate`)

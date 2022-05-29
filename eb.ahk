@@ -1,5 +1,5 @@
 idx = 0
-max = 1
+max = 18
 
 Check(color)
 {
@@ -48,13 +48,14 @@ NextFile:
 
     idx++
 
-    if(%idx% < %max%) {
+    if(idx <= max) {
         Gosub, NextFile
     } else {
+        MsgBox "EBSynth done!"
         ExitApp
     }
 return
 
 Gosub, NextFile
 
-Esc::ExitApp
+; Esc::ExitApp

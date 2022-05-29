@@ -11,6 +11,7 @@
 	"license": "ISC",
 	"dependencies": {
 		"fluent-ffmpeg": "^2.1.2",
+		"joi": "^17.6.0",
 		"sharp": "^0.30.4",
 		"yargs": "^17.5.1"
 	}
